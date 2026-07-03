@@ -1,0 +1,84 @@
+diff --git a/core/lib/Drupal/Core/Routing/RequestContext.php b/core/lib/Drupal/Core/Routing/RequestContext.php
+index 0f8948da175be7accd8205489585466fd855ea3a..6353b72848162c8686af823920c73b22b67bdaf7 100644
+--- a/core/lib/Drupal/Core/Routing/RequestContext.php
++++ b/core/lib/Drupal/Core/Routing/RequestContext.php
+@@ -25,7 +25,16 @@ class RequestContext extends SymfonyRequestContext {
+    *   The current request stack.
+    */
+   public function fromRequestStack(RequestStack $request_stack) {
+-    $this->fromRequest($request_stack->getCurrentRequest());
++    $request = $request_stack->getCurrentRequest();
++    // The request stack can be empty during request-less execution, such as
++    // route rebuilds triggered from the CLI (for example a module's install
++    // hook or event subscriber running under `drush site:install`). In that
++    // case there is nothing to populate the context from, so leave it at its
++    // constructor defaults instead of passing a NULL request to
++    // static::fromRequest(), which requires a Request object.
++    if ($request) {
++      $this->fromRequest($request);
++    }
+   }
+ 
+   /**
+diff --git a/core/tests/Drupal/Tests/Core/Routing/RequestContextTest.php b/core/tests/Drupal/Tests/Core/Routing/RequestContextTest.php
+new file mode 100644
+index 0000000000000000000000000000000000000000..c22efa5e3ceb6ee3581e9499284d309f7a8d8e58
+--- /dev/null
++++ b/core/tests/Drupal/Tests/Core/Routing/RequestContextTest.php
+@@ -0,0 +1,56 @@
++<?php
++
++namespace Drupal\Tests\Core\Routing;
++
++use Drupal\Core\Routing\RequestContext;
++use Drupal\Tests\UnitTestCase;
++use Symfony\Component\HttpFoundation\Request;
++use Symfony\Component\HttpFoundation\RequestStack;
++
++/**
++ * @coversDefaultClass \Drupal\Core\Routing\RequestContext
++ * @group Routing
++ */
++class RequestContextTest extends UnitTestCase {
++
++  /**
++   * Tests that an empty request stack does not throw a TypeError.
++   *
++   * This can happen during request-less CLI execution, such as a route
++   * rebuild triggered from a module's install hook or event subscriber
++   * while running `drush site:install`, where the request stack has no
++   * current request yet.
++   *
++   * @covers ::fromRequestStack
++   */
++  public function testFromRequestStackWithEmptyStack(): void {
++    $request_context = new RequestContext();
++    $request_stack = new RequestStack();
++
++    // This must not throw
++    // \TypeError: Drupal\Core\Routing\RequestContext::fromRequest():
++    // Argument #1 ($request) must be of type Symfony\Component\
++    // HttpFoundation\Request, null given.
++    $request_context->fromRequestStack($request_stack);
++
++    // The context is left at its constructor defaults.
++    $this->assertSame('localhost', $request_context->getHost());
++  }
++
++  /**
++   * Tests that a populated request stack still populates the context.
++   *
++   * @covers ::fromRequestStack
++   */
++  public function testFromRequestStackWithCurrentRequest(): void {
++    $request_context = new RequestContext();
++    $request = Request::create('https://example.com/foo');
++    $request_stack = new RequestStack();
++    $request_stack->push($request);
++
++    $request_context->fromRequestStack($request_stack);
++
++    $this->assertSame('example.com', $request_context->getHost());
++  }
++
++}
