@@ -58,3 +58,41 @@ core → the site automatically gets the patch set for ITS Drupal core.
   or a manual **Update** click; a metapackage's `patches` branch needs no composer/version.
 - Future cores (`11.4.x`, `12.0.x`) are forward-compat placeholders: `require drupal/core ~<minor>.0`,
   **empty** `extra.patches."drupal/core"` until patches are re-rolled for that core.
+
+## Standard issue / PR title
+
+Same grammar as varbase-patches — `<Action> a patch for the <Target> on <ref>[ -- <reason>]` (Add /
+Remove / Change / Update / Revert -) — but the Target is usually **`Drupal Core`** (occasionally a
+recipe or library) and the core minor is the context:
+
+- `Add a patch for Drupal Core on Issue #3543210: Quick Edit Save Via Contextual Links Redirects to
+  404 Page`
+- `Change a patch for Drupal Core on Issue #3326684: Fix PHP8.1+ Deprecated mb_strtolower() null - for
+  Drupal 10.6.2`
+- `Remove a patch for Drupal Core on Issue #3538500: Fix block plugin not found warnings during Drush
+  installation - for Varbase 11.0.x`
+
+Branch / release infra issues state the action directly, e.g. `Update Drupal Core from ~10.3.0 to
+~10.4.0 for Varbase Patches`, `Restrict old list of Drupal core's patches to Drupal ~10.2.0 in the
+9.2.x branch and release the 9.2.12 tag`.
+
+The issue and its MR/PR share the exact title; the PR ends with the Checkpoints checklist.
+
+Three reinforcements that apply on top of the grammar above:
+
+1. **A re-roll of an existing core patch is a `Change` — never an ad-hoc `fix:`/`task:` prefix.** A
+   re-roll keeps the ORIGINAL upstream commit-type and issue title, it does not invent a new one:
+   `Change a patch for Drupal Core on <type>: #<nid> <full upstream issue title>`. The "why now" (new
+   core minor, corrected diff, drift against the target branch) goes only in the optional
+   `-- <reason>` suffix, e.g. `-- re-rolled against Drupal 11.4.2`. Match the title style already used
+   in that branch's `CHANGELOG.md` — don't invent a style that contradicts the historical commits
+   (see the `task:`/`revert:` entries in this branch's `CHANGELOG.md`, e.g. `task: patch drupal/core
+   for #3606822 (ClassResolver synthetic kernel on install)`).
+2. **A patch change split across branches/repos shares ONE canonical title.** When one change spans
+   the `patches`-branch file PR + the core-minor-branch composer-repoint PR (or a companion PR in
+   `vardot/varbase-patches`), the issue AND every PR carry the identical title — multiple PRs, one
+   story, one title. Don't let the file PR and the wiring PR drift into different wording.
+3. **`gh pr edit --title` gotcha.** It can fail with `Projects (classic) ... deprecated
+   (repository.pullRequest.projectCards)` and silently NOT apply the title change — always verify
+   after running it. Retitle via the REST API instead:
+   `gh api -X PATCH repos/<owner>/<repo>/pulls/<n> -f title="..."`.
