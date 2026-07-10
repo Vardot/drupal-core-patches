@@ -6,7 +6,7 @@ Each release lists the commits — merged pull requests and the drupal.org issue
 
 ## [Unreleased]
 
-- docs: lock the patch issue/PR title standard in the agent docs (#TBD)
+- docs: lock the patch issue/PR title standard in the agent docs (#29)
 
 ## [11.3.0.5] - 2026-07-06
 
