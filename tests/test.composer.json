@@ -1,0 +1,76 @@
+{
+    "name": "vardot/drupal-core-patches-test",
+    "description": "Test project for vardot/drupal-core-patches: installs the Drupal core this branch targets and checks that cweagans/composer-patches applies every core patch this branch declares.",
+    "type": "project",
+    "license": "GPL-2.0-or-later",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "repositories": {
+        "drupal-core-patches": {
+            "type": "path",
+            "url": "../../",
+            "options": {
+                "symlink": false,
+                "versions": {
+                    "vardot/drupal-core-patches": "11.1.x-dev"
+                }
+            }
+        },
+        "drupal": {
+            "type": "composer",
+            "url": "https://packages.drupal.org/8"
+        }
+    },
+    "require": {
+        "composer/installers": "~2",
+        "cweagans/composer-patches": "~2.0",
+        "drupal/core-composer-scaffold": "~11.1.0",
+        "drupal/core-recommended": "~11.1.0",
+        "oomphinc/composer-installers-extender": "~2",
+        "vardot/drupal-core-patches": "11.1.x-dev"
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "composer/installers": true,
+            "cweagans/composer-patches": true,
+            "drupal/core-composer-scaffold": true,
+            "oomphinc/composer-installers-extender": true,
+            "php-http/discovery": true,
+            "symfony/runtime": true
+        }
+    },
+    "extra": {
+        "enable-patching": true,
+        "composer-exit-on-patch-failure": true,
+        "patchLevel": {
+            "drupal/core": "-p2"
+        },
+        "composer-patches": {
+            "exit-on-patch-failure": true,
+            "allowed-dependency-patches": [
+                "vardot/drupal-core-patches"
+            ]
+        },
+        "drupal-scaffold": {
+            "locations": {
+                "web-root": "web/"
+            }
+        },
+        "installer-paths": {
+            "web/core": [
+                "type:drupal-core"
+            ],
+            "web/libraries/{$name}": [
+                "type:drupal-library"
+            ],
+            "web/modules/contrib/{$name}": [
+                "type:drupal-module"
+            ],
+            "web/themes/contrib/{$name}": [
+                "type:drupal-theme"
+            ]
+        },
+        "patches": {}
+    }
+}
