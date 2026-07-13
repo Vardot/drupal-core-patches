@@ -1,5 +1,7 @@
 # Drupal core patches
 
+[![Test patches (12.0.x)](https://github.com/Vardot/drupal-core-patches/actions/workflows/test-patches.yml/badge.svg?branch=12.0.x)](https://github.com/Vardot/drupal-core-patches/actions/workflows/test-patches.yml?query=branch%3A12.0.x)
+
 > **Note:** the `12.0.x` branch is a forward-compatibility placeholder for Drupal core ~12.0.0. It carries no Drupal core patches yet — add re-rolled patches here when that core line needs them (see docs/adding-a-core-version.md).
 
 
