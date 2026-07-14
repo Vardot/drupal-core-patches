@@ -6,7 +6,7 @@ Each release lists the commits — merged pull requests and the drupal.org issue
 
 ## [Unreleased]
 
-- fix: Repoint `Issue #3044656: Add a helper method to strip subdirectories from URL paths` to the new source-only re-roll `3044656-3.patch` (drops the drifted core-test hunk that broke `git apply` / composer-patches v2 CI)
+- fix: Remove `Issue #3044656: Add a helper method to strip subdirectories from URL paths` -- unused (Varbase moved to the new routing system) and upstream #3044656 is Needs work (`UrlHelper` is a `Drupal\Component` class and must not depend on the request stack); `3044656-2.patch` stays on the `patches` branch untouched for already-released tags
 
 ## [10.5.0.2] - 2026-07-06
 
