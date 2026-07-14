@@ -35,14 +35,25 @@ it requires a range that spans the supported majors:
 
 ## Branch per Drupal core major.minor
 
-| Drupal core | Branch    | Patch count |
-|-------------|-----------|-------------|
-| ~11.3       | `11.3.x`  | 19 |
-| ~10.6       | `10.6.x`  | 17 |
-| (files)     | `patches` | shared `.patch` file store |
+**Policy (2026-07-14):** only the Drupal core minors currently supported by the Drupal Core team are
+actively maintained here — see [#79](https://github.com/Vardot/drupal-core-patches/issues/79). EOL
+branches stay in git (nothing is deleted) but no longer receive new patches, re-rolls, or CI fixes.
 
-Add a new branch (e.g. `11.4.x`) when supporting a new Drupal core minor — see
-[docs/adding-a-core-version.md](docs/adding-a-core-version.md).
+| Drupal core | Branch    | Patch count | Status |
+|-------------|-----------|-------------|--------|
+| ~12.0.0 | `12.0.x` | 0 | Upcoming — forward-compat placeholder, no patches yet |
+| ~11.4.0 | `11.4.x` | 22 | **Supported** (bugfix + security) |
+| ~11.3.0 | `11.3.x` | 20 | **Supported** (security-only) |
+| ~10.6.0 | `10.6.x` | 17 | **Supported** (security-only, final Drupal 10 minor) |
+| ~11.2.0 | `11.2.x` | 21 | **EOL — not actively maintained here** (see [#79](https://github.com/Vardot/drupal-core-patches/issues/79)) |
+| ~11.1.0 | `11.1.x` | 20 | **EOL — not actively maintained here** (see [#79](https://github.com/Vardot/drupal-core-patches/issues/79)) |
+| ~10.5.0 | `10.5.x` | 20 | **EOL — not actively maintained here** (see [#79](https://github.com/Vardot/drupal-core-patches/issues/79)) |
+| ~10.4.0 | `10.4.x` | 20 | **EOL — not actively maintained here** (see [#79](https://github.com/Vardot/drupal-core-patches/issues/79)) |
+| (files) | `patches` | shared `.patch` file store | active |
+
+Add a new branch (e.g. the next Drupal core minor) when supporting a new Drupal core minor — see
+[docs/adding-a-core-version.md](docs/adding-a-core-version.md). Adding a branch for an EOL minor is
+out of scope per #79.
 
 ## Documentation
 
