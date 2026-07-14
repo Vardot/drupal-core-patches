@@ -30,7 +30,7 @@
       "drupal/core": {
         "Issue #2869592: Disabled update module shouldn't produce a status report warning": "https://raw.githubusercontent.com/Vardot/drupal-core-patches/refs/heads/patches/2869592-disabled-update-module-63.patch",
         "Issue #2893892: Fixed Warning Invalid argument supplied for foreach() in Drupal": "https://raw.githubusercontent.com/Vardot/drupal-core-patches/refs/heads/patches/core--getDerivatives-Invalid-argument-foreach--2893892-11-d8.patch",
-        "Issue #3044656: Add a helper method to strip subdirectories from URL paths": "https://raw.githubusercontent.com/Vardot/drupal-core-patches/refs/heads/patches/3044656-2.patch",
+        "Issue #3044656: Add a helper method to strip subdirectories from URL paths": "https://raw.githubusercontent.com/Vardot/drupal-core-patches/refs/heads/patches/3044656-3.patch",
         "Issue #3101231: Fix multilingual site's layout edit context issue with TypeError: Argument 1 passed to UrlHelper::buildQuery() must be of the type array, null given": "https://raw.githubusercontent.com/Vardot/drupal-core-patches/refs/heads/patches/3101231-19.patch",
         "Issue #2741877: Nested modals don't work: opening a modal from a modal closes the original": "https://raw.githubusercontent.com/Vardot/drupal-core-patches/refs/heads/patches/drupal-core--2025-02-16--2741877--mr-11137.patch",
         "Issue #3226791: Fix Validation error saving untranslatable Media reference field": "https://raw.githubusercontent.com/Vardot/drupal-core-patches/refs/heads/patches/media_required_validation-3226791-2.patch",
