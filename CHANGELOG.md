@@ -6,6 +6,7 @@ Each release lists the commits — merged pull requests and the drupal.org issue
 
 ## [Unreleased]
 
+- ci: Fix the "Upload the install log" artifact name on PR runs -- `github.ref_name` resolves to `<PR>/merge` on a pull_request run, and the `/` made `actions/upload-artifact@v4` reject the name and fail the job `if: always()` even when every patch applied cleanly (that is what made #58-#61 report red). PR runs now use `pr-<number>`; branch pushes keep the readable `<branch>` name
 - ci: Add a GitHub Actions patches test — installs the Drupal core this branch targets and checks that Composer Patches (v1 and v2) applies every core patch, and that every patch file still exists
 
 - docs: lock the patch issue/PR title standard in the agent docs (#29)
