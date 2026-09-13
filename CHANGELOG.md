@@ -6,6 +6,7 @@ Each release lists the commits — merged pull requests and the drupal.org issue
 
 ## [Unreleased]
 
+- task: Add a patch for the Drupal Core on Issue #3622837: Top bar page actions toggle is rendered when the user has access to none of the local tasks ([MR 17111](https://git.drupalcode.org/project/drupal/-/merge_requests/17111))
 - ci: Fix the "Upload the install log" artifact name on PR runs -- `github.ref_name` resolves to `<PR>/merge` on a pull_request run, and the `/` made `actions/upload-artifact@v4` reject the name and fail the job `if: always()` even when every patch applied cleanly (that is what made #58-#61 report red). PR runs now use `pr-<number>`; branch pushes keep the readable `<branch>` name
 
 ## [11.4.0.4] - 2026-07-06
