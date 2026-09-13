@@ -1,0 +1,97 @@
+diff --git a/core/modules/navigation/src/NavigationRenderer.php b/core/modules/navigation/src/NavigationRenderer.php
+index 1f2e7a0aec..e320392ccd 100644
+--- a/core/modules/navigation/src/NavigationRenderer.php
++++ b/core/modules/navigation/src/NavigationRenderer.php
+@@ -2,10 +2,12 @@
+ 
+ namespace Drupal\navigation;
+ 
++use Drupal\Core\Access\AccessResultInterface;
+ use Drupal\big_pipe\Render\Placeholder\BigPipeStrategy;
+ use Drupal\Component\Utility\NestedArray;
+ use Drupal\Component\Utility\SortArray;
+ use Drupal\Core\Block\BlockPluginInterface;
++use Drupal\Core\Cache\CacheableDependencyInterface;
+ use Drupal\Core\Cache\CacheableMetadata;
+ use Drupal\Core\Cache\CacheBackendInterface;
+ use Drupal\Core\Config\ConfigFactoryInterface;
+@@ -260,6 +262,26 @@ public function getLocalTasks(): array {
+       if ($url?->getRouteName() === $entity_local_tasks['route_name']) {
+         continue;
+       }
++      // Exclude local tasks the current user has no access to. They render as
++      // an empty string inside the page actions dropdown, which leaves the
++      // "More actions" (3 dots) toggle visible above a menu with nothing in
++      // it. Both ::hasLocalTasks() and top-bar-page-actions.html.twig decide
++      // whether to show that toggle from this array being non-empty, so the
++      // access check has to happen here rather than at render time.
++      $access = $local_task['#access'] ?? TRUE;
++      if ($access instanceof CacheableDependencyInterface) {
++        // Keep the reason the task was hidden in the cacheability of the top
++        // bar, so the toggle reappears for a user who does have access.
++        $cacheability->addCacheableDependency($access);
++      }
++      if ($access instanceof AccessResultInterface) {
++        if (!$access->isAllowed()) {
++          continue;
++        }
++      }
++      elseif (!$access) {
++        continue;
++      }
+       // The $local_task array that we get here is tailor-made for use
+       // with the menu-local-tasks.html.twig, eg. the menu_local_task
+       // theme hook. It has all the information we need, but we're not
+diff --git a/core/modules/navigation/tests/src/Functional/NavigationTopBarTest.php b/core/modules/navigation/tests/src/Functional/NavigationTopBarTest.php
+index 096241583b..3fad8958f6 100644
+--- a/core/modules/navigation/tests/src/Functional/NavigationTopBarTest.php
++++ b/core/modules/navigation/tests/src/Functional/NavigationTopBarTest.php
+@@ -124,6 +124,48 @@ public function testTopBarVisibility(): void {
+     $this->assertSession()->elementExists('xpath', '//div[@id="block-tabs"]');
+   }
+ 
++  /**
++   * Tests that the page actions toggle is hidden when all actions are denied.
++   */
++  public function testTopBarPageActionsAccess(): void {
++    // A user who can reach the top bar, but has access to none of the local
++    // tasks of the node: no edit, no delete, no revisions, no layout.
++    $this->drupalLogin($this->drupalCreateUser([
++      'access navigation',
++      'access content',
++    ]));
++
++    $this->drupalGet($this->node->toUrl());
++
++    // The top bar itself is still there.
++    $this->assertSession()->elementExists('xpath', "//div[contains(@class, 'top-bar__content')]");
++    // But the "More actions" toggle is not, because it would open an empty
++    // menu: every page action is denied for this user.
++    $this->assertSession()->elementNotExists('xpath', "//div[contains(@class, 'top-bar__actions')]//button[contains(@class, 'toolbar-button--icon--dots')]");
++    $this->assertSession()->elementNotExists('xpath', '//*[@id="top-bar-page-actions"]');
++
++    // With no page actions to move into the top bar, the regular tabs block is
++    // left alone.
++    $this->assertSession()->elementExists('xpath', '//div[@id="block-tabs"]');
++
++    // A user who can access one of the local tasks still gets the toggle, and
++    // only the action they may use.
++    $this->drupalLogin($this->drupalCreateUser([
++      'access navigation',
++      'access content',
++      'view all revisions',
++    ]));
++
++    $this->drupalGet($this->node->toUrl());
++    $this->assertSession()->elementExists('xpath', "//div[contains(@class, 'top-bar__actions')]//button[contains(@class, 'toolbar-button--icon--dots')]");
++    $page_actions = $this->getSession()->getPage()->find('xpath', '//*[@id="top-bar-page-actions"]/ul');
++    $this->assertNotNull($page_actions);
++    $this->assertSame(['Revisions'], array_map(
++      fn($link) => trim($link->getText()),
++      $page_actions->findAll('css', 'li')
++    ));
++  }
++
+   /**
+    * Asserts that top bar actions respect local tasks weights.
+    *
