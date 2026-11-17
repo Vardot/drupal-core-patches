@@ -42,7 +42,7 @@ branches stay in git (nothing is deleted) but no longer receive new patches, re-
 | Drupal core | Branch    | Patch count | Status |
 |-------------|-----------|-------------|--------|
 | ~12.0.0 | `12.0.x` | 0 | Upcoming — forward-compat placeholder, no patches yet |
-| ~11.4.0 | `11.4.x` | 22 | **Supported** (bugfix + security) |
+| ~11.4.0 | `11.4.x` | 23 | **Supported** (bugfix + security) |
 | ~11.3.0 | `11.3.x` | 20 | **Supported** (security-only) |
 | ~10.6.0 | `10.6.x` | 17 | **Supported** (security-only, final Drupal 10 minor) |
 | ~11.2.0 | `11.2.x` | 21 | **EOL — not actively maintained here** (see [#79](https://github.com/Vardot/drupal-core-patches/issues/79)) |
