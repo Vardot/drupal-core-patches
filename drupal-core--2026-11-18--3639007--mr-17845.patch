@@ -1,0 +1,89 @@
+diff --git a/core/modules/locale/src/Form/TranslateFilterForm.php b/core/modules/locale/src/Form/TranslateFilterForm.php
+index be3f6f7063048b1d30e517017f28be0f484add2c..de855cf44a3b09f3f3fd2fc78110e9377d968798 100644
+--- a/core/modules/locale/src/Form/TranslateFilterForm.php
++++ b/core/modules/locale/src/Form/TranslateFilterForm.php
+@@ -44,11 +44,13 @@ public function buildForm(array $form, FormStateInterface $form_state) {
+         ];
+       }
+       else {
+-        $empty_option = $filter['options'][$filter['default']] ?? '- None -';
++        // The language filter has no default when no language is translatable.
++        $default = $filter['default'] ?? '';
++        $empty_option = $filter['options'][$default] ?? '- None -';
+         $form['filters']['status'][$key] = [
+           '#title' => $filter['title'],
+           '#type' => 'select',
+-          '#empty_value' => $filter['default'],
++          '#empty_value' => $default,
+           '#empty_option' => $empty_option,
+           '#size' => 0,
+           '#options' => $filter['options'],
+diff --git a/core/modules/locale/tests/src/Kernel/TranslateFilterFormTest.php b/core/modules/locale/tests/src/Kernel/TranslateFilterFormTest.php
+new file mode 100644
+index 0000000000000000000000000000000000000000..b31425010ce5618567e0a2a907c5be58b609f699
+--- /dev/null
++++ b/core/modules/locale/tests/src/Kernel/TranslateFilterFormTest.php
+@@ -0,0 +1,63 @@
++<?php
++
++declare(strict_types=1);
++
++namespace Drupal\Tests\locale\Kernel;
++
++use Drupal\KernelTests\KernelTestBase;
++use Drupal\language\Entity\ConfigurableLanguage;
++use Drupal\locale\Form\TranslateFilterForm;
++use PHPUnit\Framework\Attributes\Group;
++use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
++
++/**
++ * Tests the language filter of the translate filter form.
++ */
++#[Group('locale')]
++#[RunTestsInSeparateProcesses]
++class TranslateFilterFormTest extends KernelTestBase {
++
++  /**
++   * {@inheritdoc}
++   */
++  protected static $modules = ['language', 'locale', 'system', 'user'];
++
++  /**
++   * {@inheritdoc}
++   */
++  protected function setUp(): void {
++    parent::setUp();
++    $this->installConfig(['language', 'locale']);
++  }
++
++  /**
++   * Tests the language filter when no language is translatable.
++   */
++  public function testLanguageFilterWithoutTranslatableLanguage(): void {
++    $element = $this->buildLanguageFilter();
++    $this->assertSame('', $element['#empty_value']);
++    $this->assertSame(['' => '- None -'], $element['#options']);
++  }
++
++  /**
++   * Tests the language filter with a translatable language.
++   */
++  public function testLanguageFilterWithTranslatableLanguage(): void {
++    ConfigurableLanguage::createFromLangcode('fr')->save();
++    $element = $this->buildLanguageFilter();
++    $this->assertSame('fr', $element['#empty_value']);
++    $this->assertSame(['fr' => 'French'], $element['#options']);
++  }
++
++  /**
++   * Builds the filter form and returns its processed language filter.
++   *
++   * @return array
++   *   The language filter select element.
++   */
++  protected function buildLanguageFilter(): array {
++    $form = $this->container->get('form_builder')->getForm(TranslateFilterForm::class);
++    return $form['filters']['status']['langcode'];
++  }
++
++}
