@@ -49,7 +49,8 @@
         "Issue #3101231: Fix multilingual site's layout edit context issue with TypeError: Argument 1 passed to UrlHelper::buildQuery() must be of the type array, null given": "https://raw.githubusercontent.com/Vardot/drupal-core-patches/refs/heads/patches/drupal-core--2026-07-02--3101231--drupal-11-4.patch",
         "Issue #3049332: Fix Log error + visual warning for missing or broken block": "https://raw.githubusercontent.com/Vardot/drupal-core-patches/refs/heads/patches/drupal-core--2026-07-02--3049332--drupal-11-4.patch",
         "Issue #2701575: Fix TypeError RequestContext::fromRequest(): Argument #1 ($request) must be of type Request, null given (fatal on drush site:install during a request-less route rebuild)": "https://raw.githubusercontent.com/Vardot/drupal-core-patches/refs/heads/patches/drupal-core--2026-07-03--2701575--mr-16205.patch",
-        "Issue #3622837: Top bar page actions toggle is rendered when the user has access to none of the local tasks": "https://raw.githubusercontent.com/Vardot/drupal-core-patches/refs/heads/patches/drupal-core--2026-09-13--3622837--mr-17111.patch"
+        "Issue #3622837: Top bar page actions toggle is rendered when the user has access to none of the local tasks": "https://raw.githubusercontent.com/Vardot/drupal-core-patches/refs/heads/patches/drupal-core--2026-09-13--3622837--mr-17111.patch",
+        "Issue #3639007: TranslateFilterForm uses a NULL filter default as an array key (PHP 8.5 deprecation)": "https://raw.githubusercontent.com/Vardot/drupal-core-patches/refs/heads/patches/drupal-core--2026-11-18--3639007--mr-17845.patch"
       }
     }
   }
