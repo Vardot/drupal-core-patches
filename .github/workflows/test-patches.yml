@@ -3,10 +3,10 @@ name: Test patches
 on:
   push:
     branches:
-      - 11.4.x
+      - 11.5.x
   pull_request:
     branches:
-      - 11.4.x
+      - 11.5.x
   schedule:
     # Weekly, so that a patch file disappearing upstream turns the branch red.
     - cron: '0 6 * * 1'

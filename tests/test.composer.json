@@ -12,7 +12,7 @@
             "options": {
                 "symlink": false,
                 "versions": {
-                    "vardot/drupal-core-patches": "11.4.x-dev"
+                    "vardot/drupal-core-patches": "11.5.x-dev"
                 }
             }
         },
@@ -24,10 +24,10 @@
     "require": {
         "composer/installers": "~2",
         "cweagans/composer-patches": "~2.0",
-        "drupal/core-composer-scaffold": "~11.4.0",
-        "drupal/core-recommended": "~11.4.0",
+        "drupal/core-composer-scaffold": "~11.5.0",
+        "drupal/core-recommended": "~11.5.0",
         "oomphinc/composer-installers-extender": "~2",
-        "vardot/drupal-core-patches": "11.4.x-dev"
+        "vardot/drupal-core-patches": "11.5.x-dev"
     },
     "config": {
         "sort-packages": true,
