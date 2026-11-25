@@ -1,6 +1,6 @@
 # Drupal core patches
 
-[![Test patches (11.4.x)](https://github.com/Vardot/drupal-core-patches/actions/workflows/test-patches.yml/badge.svg?branch=11.4.x)](https://github.com/Vardot/drupal-core-patches/actions/workflows/test-patches.yml?query=branch%3A11.4.x)
+[![Test patches (11.5.x)](https://github.com/Vardot/drupal-core-patches/actions/workflows/test-patches.yml/badge.svg?branch=11.5.x)](https://github.com/Vardot/drupal-core-patches/actions/workflows/test-patches.yml?query=branch%3A11.5.x)
 
 > **Why this package:** `vardot/drupal-core-patches` is required by [`vardot/varbase-patches`](https://github.com/Vardot/varbase-patches) so that [Varbase](https://www.drupal.org/project/varbase) can upgrade to the latest Drupal core versions. It maintains the right set of working Drupal **core** patches **per Drupal core version** (one branch per major.minor), so each Varbase line automatically gets the patches that apply to its Drupal core.
 
@@ -42,6 +42,7 @@ branches stay in git (nothing is deleted) but no longer receive new patches, re-
 | Drupal core | Branch    | Patch count | Status |
 |-------------|-----------|-------------|--------|
 | ~12.0.0 | `12.0.x` | 0 | Upcoming — forward-compat placeholder, no patches yet |
+| ~11.5.0 | `11.5.x` | 23 | **Supported** (pre-release core: 11.5.0-beta1 and later) |
 | ~11.4.0 | `11.4.x` | 23 | **Supported** (bugfix + security) |
 | ~11.3.0 | `11.3.x` | 20 | **Supported** (security-only) |
 | ~10.6.0 | `10.6.x` | 17 | **Supported** (security-only, final Drupal 10 minor) |

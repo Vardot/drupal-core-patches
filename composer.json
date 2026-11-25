@@ -20,11 +20,11 @@
     }
   ],
   "require": {
-    "drupal/core": "~11.4.0"
+    "drupal/core": "~11.5.0"
   },
   "extra": {
     "branch-alias": {
-      "dev-11.4.x": "11.4.x-dev"
+      "dev-11.5.x": "11.5.x-dev"
     },
     "patches": {
       "drupal/core": {

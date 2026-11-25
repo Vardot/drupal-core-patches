@@ -1,4 +1,4 @@
-# Tests — `vardot/drupal-core-patches` (11.4.x)
+# Tests — `vardot/drupal-core-patches` (11.5.x)
 
 Two checks, run by [`.github/workflows/test-patches.yml`](../.github/workflows/test-patches.yml) on every push and pull request to this branch, and weekly on a schedule. The workflow triggers only on this branch, so the branch tests itself.
 
